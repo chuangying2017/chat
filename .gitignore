@@ -10,7 +10,7 @@ composer.phar
 
 # EasySwoole
 
-easyswoole
+
 easyswoole.install
 Log
 Temp
