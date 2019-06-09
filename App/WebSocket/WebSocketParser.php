@@ -17,7 +17,7 @@ class WebSocketParser implements ParserInterface
 {
     /**
      * 解码上来的消息
-     * @param string $raw 消息内容
+     * @param string $raw 消息内容 客户端原始消息
      * @param WebSocketClient $client 当前的客户端
      * @return Caller|null
      */

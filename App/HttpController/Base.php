@@ -14,6 +14,12 @@ use EasySwoole\Template\Render;
  */
 class Base extends Controller
 {
+
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     function index()
     {
         $this->actionNotFound('index');

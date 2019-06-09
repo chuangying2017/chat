@@ -18,11 +18,11 @@
     <form class="am-form" style="margin-top: 80px;">
         <div class="am-form-group am-input-group">
             <span class="am-input-group-label"><i class="am-icon-at am-icon-fw"></i></span>
-            <input type="email" class="am-form-field" placeholder="输入账号">
+            <input type="text" name="username" class="am-form-field" placeholder="输入账号">
         </div>
         <div class="am-form-group am-input-group">
             <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-            <input type="password" class="am-form-field" placeholder="输入登录密码">
+            <input type="password" name="password" class="am-form-field" placeholder="输入登录密码">
         </div>
         <div class="am-form-group">
             <button type="button" class="am-btn am-btn-primary am-btn-block" style="margin-top: 0px;">开始畅聊</button>
@@ -32,6 +32,40 @@
         </div>
     </form>
 </div>
+<script>
 
+    $("button[type='button']").click(function()
+    {
+            var username = $('input[name="username"]').val();
+
+            var password = $('input[name="password"]').val();
+
+            if (!username || !password)
+            {
+                alert('账号密码必填');
+                return false;
+            }
+
+            $.ajax({
+                data:{username:username,password:password},
+                type:'post',
+                dataType:'json',
+                url:'/login/verifyLogin',
+                success:function(data){
+                    console.log(data)
+                    if (data.msg == 'success')
+                    {
+                        window.location.href=data.result.src;
+                    }else{
+                        alert('账号或密码错误');
+                    }
+                },
+                erroe:function(err,type){
+                    console.log(err,type)
+                }
+            });
+    });
+
+</script>
 </body>
 </html>

@@ -24,7 +24,7 @@
                     </div>
                     <div class="me_status">
                         <div class="me_username">
-                            <i class="am-icon am-icon-pencil" @click="changeName"></i> {{currentUser.username}}
+                                <i class="am-icon am-icon-pencil" @click="changeName"></i> {{currentUser.username}}
                         </div>
                         <div class="me_income">{{currentUser.intro}}</div>
                     </div>
@@ -51,10 +51,10 @@
         <div class="talk_window">
             <div class="windows_top">
                 <div class="windows_top_left"><i class="am-icon am-icon-list online-list"></i> 欢迎乘坐特快列车</div>
-                <!--<div class="windows_top_right">
-                    <a href="https://github.com/easy-swoole/demo/tree/3.x-chat" target="_blank"
-                       style="color: #999">查看源码</a>
-                </div>-->
+                <div class="windows_top_right">
+                    <a href="javascript:;" @click="changeLogout"
+                       style="color: #999">退出</a>
+                </div>
             </div>
             <div class="windows_body" id="chat-window" v-scroll-bottom>
                 <ul class="am-comments-list am-comments-list-flip">
@@ -121,6 +121,15 @@
     </template>
 </div>
 <script>
+
+    var src = "<?= $ke == true && !empty($src) ? $src : '' ?>";
+
+    if (src)
+    {
+       window.location.href = src;
+    }
+
+
     var Vm = new Vue({
         el        : '#chat',
         data      : {
@@ -378,6 +387,14 @@
                     layer.close(index);
                 });
 
+            },
+            changeLogout : function(){
+               $.get('/login/logout', function (data) {
+                   if (data.msg == 'success')
+                   {
+                       window.location.href = data.result.src
+                   }
+               });
             }
         },
         computed  : {
