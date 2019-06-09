@@ -234,7 +234,7 @@
                                         fd      : 0,
                                         content : data.content,
                                         avatar  : 'https://www.gravatar.com/avatar/3ee60266a353746d6aab772fb9e2d398?s=200&d=identicon',
-                                        username: '列车乘务员'
+                                        username: '管理员'
                                     });
                                     break;
                                 }

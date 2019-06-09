@@ -40,7 +40,7 @@ class WebSocketEvents
         } else {
             $random = Random::character(8);
             $avatar = Gravatar::makeGravatar($random . '@swoole.com');
-            $username = '神秘乘客' . $random;
+            $username = 'KF_' . $random;
         }
 
         // 插入在线用户表
@@ -55,7 +55,7 @@ class WebSocketEvents
 
             // 发送欢迎消息给用户
             $broadcastAdminMessage = new BroadcastAdmin;
-            $broadcastAdminMessage->setContent("{$username}，欢迎乘坐EASYSWOOLE号特快列车，请系好安全带，文明乘车");
+            $broadcastAdminMessage->setContent("{$username}，欢迎到来 你好 请问有什么可以帮助到你！");
             $server->push($fd, $broadcastAdminMessage->__toString());
 
             // 提取最后10条消息发送给用户
