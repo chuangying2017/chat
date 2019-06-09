@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "520160a7b46989e8db4ae070688351f4",
+    "content-hash": "317fcff6f5652a4f65cd966699d3699c",
     "packages": [
         {
             "name": "dragonmantank/cron-expression",
@@ -393,6 +393,59 @@
                 "swoole"
             ],
             "time": "2019-05-17T13:06:54+00:00"
+        },
+        {
+            "name": "easyswoole/mysqli-pool",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easy-swoole/mysqli-pool.git",
+                "reference": "517b6a3d23c346a88ce5b395dc38825080eb3260"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easy-swoole/mysqli-pool/zipball/517b6a3d23c346a88ce5b395dc38825080eb3260",
+                "reference": "517b6a3d23c346a88ce5b395dc38825080eb3260",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "easyswoole/component": "^1.5",
+                "easyswoole/mysqli": "^1.1"
+            },
+            "require-dev": {
+                "easyswoole/swoole-ide-helper": "^1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasySwoole\\MysqliPool\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "YF",
+                    "email": "291323003@qq.com"
+                }
+            ],
+            "description": "An efficient swoole framework",
+            "homepage": "https://www.easyswoole.com/",
+            "keywords": [
+                "async",
+                "easyswoole",
+                "framework",
+                "swoole"
+            ],
+            "time": "2019-05-20T05:54:50+00:00"
         },
         {
             "name": "easyswoole/smtp",
