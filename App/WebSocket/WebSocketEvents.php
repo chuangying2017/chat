@@ -35,6 +35,7 @@ class WebSocketEvents
     {
         // 为用户分配身份并插入到用户表
         $fd = $request->fd;
+
         if (isset($request->get['username']) && !empty($request->get['username'])) {
             $username = $request->get['username'];
             $avatar = Gravatar::makeGravatar($username . '@swoole.com');

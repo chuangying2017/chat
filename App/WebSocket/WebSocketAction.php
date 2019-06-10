@@ -20,7 +20,7 @@ class WebSocketAction
     const USER_INFO = 201;         // 用户信息
     const USER_ONLINE = 202;       // 在线列表
     const USER_IN_ROOM = 203;      // 进入房间 新用户来咨询
-    const USER_OUT_ROOM = 204;     // 离开房间
+    const USER_OUT_ROOM = 204;     // 离开房间 用户已离开
 
     //一对一聊天
 }

@@ -25,6 +25,8 @@ class SaveMessage
             'content' => $message['content'],
         ];
 
+        if (isset($message['mode'])) $arr['mode'] = $message['mode'];
+
         SessionRecord::getInstance()->add($arr);
 
     }

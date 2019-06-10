@@ -29,10 +29,18 @@ class CustomerTask extends AbstractAsyncTask
 
         foreach (OnlineUser::getInstance()->table() as $userFd => $userInfo) {
             $connection = $server->connection_info($userFd);
-            if ($connection['websocket_status'] == 3 && $userInfo['username'] == $customer['username']) {  // 客服正常在线时可以进行消息推送
-                $server->push($userInfo['fd'], $taskData['payload']);
+            if ($connection['websocket_status'] == 3) {  // 客服正常在线时可以进行消息推送
+                if ($userInfo['username'] == $customer['username'])
+                {
+                    $server->push($userInfo['fd'], $taskData['payload']);
+                }elseif($userInfo['fd'] == $taskData['fromFd'])
+                {
+                    $server->push($userInfo['fd'], $taskData['payload']);
+                }
+
             }
         }
+
 
         // 添加到离线消息
       //  if ($payload['action'] == 103) {
