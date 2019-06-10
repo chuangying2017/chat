@@ -9,6 +9,7 @@
 namespace App\Task;
 
 
+use App\FilterLogic\Filter;
 use App\Storage\OnlineUser;
 use App\Storage\SaveMessage;
 use App\WebSocket\WebSocketAction;
@@ -59,9 +60,11 @@ class CustomerTask extends AbstractAsyncTask
 
             }
 
+
+            $customer['type'] = $payload['type'] ?? 'msg';
             $customer['content'] = $payload['content'] ?? '客户咨询';
 
-            SaveMessage::getInstance()->saveMessage($customer);
+            SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
 
       //  }
 

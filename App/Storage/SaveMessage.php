@@ -19,18 +19,7 @@ class SaveMessage
 
     public function saveMessage($message)
     {
-
-        $arr = [
-            'customer_id' => $message['customer_id'],
-            'client_number' => $message['client_number'],
-            'content' => $message['content'],
-            'mode' => isset($message['mode']) ? $message['mode'] : 'send'
-        ];
-
-        if (isset($message['mode'])) $arr['mode'] = $message['mode'];
-
-        SessionRecord::getInstance()->add($arr);
-
+        SessionRecord::getInstance()->add($message);
     }
 
     /**
