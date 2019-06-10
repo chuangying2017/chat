@@ -63,6 +63,11 @@ return [
         'database'      => 'new_ma',
         'POOL_MAX_NUM'  => '20',
         'POOL_TIME_OUT' => '0.1',
+        //连接池配置需要根据注册时返回的poolconfig进行配置,只在这里配置无效
+        'intervalCheckTime'    => 30 * 1000,//定时验证对象是否可用以及保持最小连接的间隔时间
+        'maxIdleTime'          => 15,//最大存活时间,超出则会每$intervalCheckTime/1000秒被释放
+        'maxObjectNum'         => 20,//最大创建数量
+        'minObjectNum'         => 5,//最小创建数量 最小创建数量不能大于等于最大创建
     ],
     /*################ REDIS CONFIG ##################*/
     'REDIS' => [
@@ -72,5 +77,10 @@ return [
         'POOL_MAX_NUM'  => '20',
         'POOL_MIN_NUM'  => '5',
         'POOL_TIME_OUT' => '0.1',
+        //连接池配置需要根据注册时返回的poolconfig进行配置,只在这里配置无效
+        'intervalCheckTime'    => 30 * 1000,//定时验证对象是否可用以及保持最小连接的间隔时间
+        'maxIdleTime'          => 15,//最大存活时间,超出则会每$intervalCheckTime/1000秒被释放
+        'maxObjectNum'         => 20,//最大创建数量
+        'minObjectNum'         => 5,//最小创建数量 最小创建数量不能大于等于最大创建
     ]
 ];

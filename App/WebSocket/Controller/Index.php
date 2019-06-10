@@ -17,6 +17,7 @@ class Index extends Base
 {
     /**
      * 当前用户信息
+     * 生成用户信息的同时 给用户随机选择 一位客服
      * @throws Exception
      */
     function info()

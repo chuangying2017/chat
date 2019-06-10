@@ -9,8 +9,11 @@
 namespace App\Model;
 
 
+use EasySwoole\Component\Singleton;
+
 class SessionRecord extends Model
 {
-    protected $tableName = 'session_record';
+    use Singleton;
 
+    protected $dbTable = 'session_record';
 }

@@ -11,6 +11,7 @@ namespace App\Model;
 
 class CustomerModel extends Model
 {
-    protected $tableName = 'customer';
+
+    protected $dbTable = 'customer';
 
 }

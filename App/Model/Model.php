@@ -13,6 +13,7 @@ use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Config;
 use EasySwoole\Mysqli\Mysqli;
 use EasySwoole\Mysqli\TpORM;
+use EasySwoole\MysqliPool\Mysql;
 
 class Model extends TpORM
 {
@@ -24,25 +25,37 @@ class Model extends TpORM
 
     protected $modelPath = '\\App\\Model';
 
-    protected $createTime = false;
+    protected $createTime = true;
+
+    protected $updateTime = true;
 
     protected $createTimeName = 'created_at';
+
+    protected $updateTimeName = 'updated_at';
 
     public function __construct($data = null)
     {
         $this->prefix = Config::getInstance()->getConf( 'MYSQL.prefix' );
-        $conf = new \EasySwoole\Mysqli\Config(Config::getInstance()->getConf('MYSQL'));
-        $db = new Mysqli($conf);
+        $db = Mysql::defer('mysql');
         parent::__construct( $data );
         $this->setDb( $db );
     }
 
-    public function add()
+    public function add($data)
     {
         try{
-            if( $this->createTime === true ){
-                $data[$this->createTimeName] = time();
+            $date = date('Y-m-d H:i:s',time());
+
+            if( $this->createTime === true )
+            {
+                $data[$this->createTimeName] = $date;
             }
+
+            if ($this->updateTime === true)
+            {
+                $data[$this->updateTimeName] = $date;
+            }
+
             return parent::insert( $data );
         } catch( \EasySwoole\Mysqli\Exceptions\ConnectFail $e ){
             $this->throwable = $e;

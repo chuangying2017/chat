@@ -278,7 +278,7 @@
                                     break;
                                 }
                                 case 203: {
-                                    // 新用户上线
+                                    // 有新的用户来咨询服务
                                     othis.$set(othis.roomUser, 'user' + data.info.fd, data.info);
                                     othis.roomChat.push({
                                         type   : 'tips',

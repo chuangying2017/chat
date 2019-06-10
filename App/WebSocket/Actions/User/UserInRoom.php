@@ -16,6 +16,7 @@ class UserInRoom extends ActionPayload
     protected $action = WebSocketAction::USER_IN_ROOM;
     protected $info;
 
+
     /**
      * @return mixed
      */
@@ -31,4 +32,6 @@ class UserInRoom extends ActionPayload
     {
         $this->info = $info;
     }
+
+
 }

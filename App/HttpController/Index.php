@@ -54,7 +54,7 @@ class Index extends Base
                 'updated_at' => $date
             ];
 
-            $db = New SessionRecord();
+            $db = SessionRecord::getInstance();
 
             $res = $db->insert($data);
 

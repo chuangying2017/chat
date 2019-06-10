@@ -36,6 +36,8 @@ class BroadcastTask extends AbstractAsyncTask
         /** @var \swoole_websocket_server $server */
         $server = ServerManager::getInstance()->getSwooleServer();
 
+        $payload = json_decode($taskData['payload'], true);
+
         foreach (OnlineUser::getInstance()->table() as $userFd => $userInfo) {
             $connection = $server->connection_info($userFd);
             if ($connection['websocket_status'] == 3) {  // 用户正常在线时可以进行消息推送
@@ -44,7 +46,6 @@ class BroadcastTask extends AbstractAsyncTask
         }
 
         // 添加到离线消息
-        $payload = json_decode($taskData['payload'], true);
         if ($payload['action'] == 103) {
 
             $userinfo = OnlineUser::getInstance()->get($taskData['fromFd']);

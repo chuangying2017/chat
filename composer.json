@@ -24,7 +24,8 @@
         "easyswoole/smtp": "^1.0",
         "easyswoole/socket": "^1.1",
         "easyswoole/mysqli": "^1.1",
-        "easyswoole/mysqli-pool": "^1.0"
+        "easyswoole/mysqli-pool": "^1.0",
+        "easyswoole/redis-pool": "^1.0"
     },
     "require-dev": {
         "composer/composer": "^1.6"
