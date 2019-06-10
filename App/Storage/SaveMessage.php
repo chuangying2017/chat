@@ -19,11 +19,7 @@ class SaveMessage
 
     public function saveMessage($message)
     {
-        var_dump($message);
-
-        $res = SessionRecord::getInstance()->add($message);
-
-        var_dump($res);
+      SessionRecord::getInstance()->add($message);
     }
 
     /**
