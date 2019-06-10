@@ -12,6 +12,7 @@ use App\WebSocket\Actions\User\UserInRoom;
 
 use App\WebSocket\Actions\User\UserOutRoom;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
+use EasySwoole\Socket\Bean\Caller;
 use EasySwoole\Utility\Random;
 
 use \swoole_server;
@@ -33,7 +34,8 @@ class WebSocketEvents
      */
     static function onOpen(\swoole_websocket_server $server, \swoole_http_request $request)
     {
-        // 为用户分配身份并插入到用户表
+
+/*        // 为用户分配身份并插入到用户表
         $fd = $request->fd;
 
         if (isset($request->get['username']) && !empty($request->get['username'])) {
@@ -45,10 +47,13 @@ class WebSocketEvents
             $username = 'KF_' . $random;
         }
 
+
+        var_dump('here get method!');
+
         // 插入在线用户表
         OnlineUser::getInstance()->set($fd, $username, $avatar);
 
-
+        var_dump('已经插入到了在线用户表');
         //有客服来咨询
         $userInRoomMessage = new UserInRoom;
         $userInRoomMessage->setInfo(['fd' => $fd, 'avatar' => $avatar, 'username' => $username]);
@@ -78,19 +83,21 @@ class WebSocketEvents
 
             //var_dump($olineUser->get(1));
             // 提取最后10条消息发送给用户
-         /*   $lastMessages = ChatMessage::getInstance()->readMessage();
+            $lastMessages = ChatMessage::getInstance()->readMessage();
             $lastMessages = array_reverse($lastMessages);
             if (!empty($lastMessages)) {
                 foreach ($lastMessages as $message) {
                     $server->push($fd, $message);
                 }
-            }*/
+            }
 
         }else{
             // 发送广播告诉频道里的用户 有新用户上线
 
             TaskManager::async(new CustomerTask(['payload' => $userInRoomMessage->__toString(), 'fromFd' => $fd]));
         }
+
+        */
     }
 
     /**
@@ -107,9 +114,10 @@ class WebSocketEvents
 
             // 移除用户并广播告知
             OnlineUser::getInstance()->delete($fd);
-            $message = new UserOutRoom;
+            var_dump($fd);
+/*            $message = new UserOutRoom;
             $message->setUserFd($fd);
-            TaskManager::async(new BroadcastTask(['payload' => $message->__toString(), 'fromFd' => $fd]));
+            TaskManager::async(new BroadcastTask(['payload' => $message->__toString(), 'fromFd' => $fd]));*/
 
         }
     }

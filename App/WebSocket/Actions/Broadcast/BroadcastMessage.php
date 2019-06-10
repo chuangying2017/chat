@@ -23,6 +23,8 @@ class BroadcastMessage extends ActionPayload
     protected $content;
     protected $type;
     protected $sendTime;
+    protected $avatar; //头像链接
+    protected $username; //用户名
 
     /**
      * @return mixed
@@ -70,5 +72,15 @@ class BroadcastMessage extends ActionPayload
     public function setSendTime($sendTime): void
     {
         $this->sendTime = $sendTime;
+    }
+
+    public function setAvatar($avatar):void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function setUsername($username):void
+    {
+        $this->username = $username;
     }
 }

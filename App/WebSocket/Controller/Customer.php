@@ -14,12 +14,14 @@ namespace App\WebSocket\Controller;
 use App\Task\CustomerTask;
 use App\WebSocket\Actions\Broadcast\BroadcastMessage;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
-use EasySwoole\Socket\AbstractInterface\Controller;
 use EasySwoole\Socket\Client\WebSocket as WebSocketClient;
 
-class Customer extends Controller
+class Customer extends Base
 {
-    //单对单 发送给客户端
+    //单对单 发送给客户端 需要区分 是客服 还是 客户
+    /**
+     * @throws \Exception
+     */
     public function sendPersonal()
     {
         /** @var WebSocketClient $client */
@@ -31,9 +33,19 @@ class Customer extends Controller
             $message->setContent($broadcastPayload['content']);
             $message->setType($broadcastPayload['type']);
             $message->setSendTime(date('Y-m-d H:i:s'));
+
+            $info = $this->currentUser();
+
+            if (!empty($info))
+            {
+                $message->setUsername($info['username']);
+                $message->setAvatar($info['avatar']);
+            }
+
             TaskManager::async(new CustomerTask([
                 'payload' => $message->__toString(),
                 'fromFd' => $client->getFd(),
+                'mode'  => isset($broadcastPayload['mode']) ? $broadcastPayload['mode'] : false,
                 'toCustomer' => [
                     'customer_id' => $broadcastPayload['toUserFd'],
                     'username' => $broadcastPayload['username']

@@ -47,7 +47,17 @@ class CustomerTask extends AbstractAsyncTask
 
             $userinfo = OnlineUser::getInstance()->get($taskData['fromFd']);
 
-            $customer['client_number'] = $userinfo['username'];
+            if (isset($taskData['mode']) && $taskData['mode'] === false)
+            {
+                //客户 发送过来的 数据
+                $customer['client_number'] = $userinfo['username'];
+            }else{
+                //客户 接收数据
+                $customer['mode'] = 'accept';
+                $customer['client_number'] = $customer['username'];
+                $customer['username'] = $userinfo['username'];
+
+            }
 
             $customer['content'] = $payload['content'] ?? '客户咨询';
 
