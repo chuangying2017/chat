@@ -61,7 +61,13 @@ class CustomerTask extends AbstractAsyncTask
             }
 
 
-            $customer['type'] =  isset($payload['type']) && $payload['type'] == 'text' ? 'msg': 'image';
+            if (!isset($customer['type']))
+            {
+                $customer['type'] = 'msg';//如果没设置 默认为信息
+            }else{
+                $customer['type'] = $customer['type'] == 'text' ? 'msg' : 'image';
+            }
+
             $customer['content'] = $payload['content'] ?? '客户咨询';
 
             SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
