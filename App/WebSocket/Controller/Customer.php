@@ -40,7 +40,14 @@ class Customer extends Base
             {
                 $message->setUsername($info['username']);
                 $message->setAvatar($info['avatar']);
+                $message->setSend($info['username']);
             }
+
+            $message->setAccept($broadcastPayload['username']);
+
+            $message->setMasterId($broadcastPayload['masterId']);
+
+
 
             TaskManager::async(new CustomerTask([
                 'payload' => $message->__toString(),

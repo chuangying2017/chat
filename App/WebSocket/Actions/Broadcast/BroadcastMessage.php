@@ -25,6 +25,9 @@ class BroadcastMessage extends ActionPayload
     protected $sendTime;
     protected $avatar; //头像链接
     protected $username; //用户名
+    protected $accept; //接收者的账号
+    protected $send; //发送者的账号
+    protected $masterId; //聊天组的id
 
     /**
      * @return mixed
@@ -82,5 +85,20 @@ class BroadcastMessage extends ActionPayload
     public function setUsername($username):void
     {
         $this->username = $username;
+    }
+
+    public function setAccept($username):void
+    {
+        $this->accept = $username;
+    }
+
+    public function setSend($username):void
+    {
+        $this->send = $username;
+    }
+
+    public function setMasterId($masterId):void
+    {
+        $this->masterId = $masterId;
     }
 }
