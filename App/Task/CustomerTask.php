@@ -56,7 +56,6 @@ class CustomerTask extends AbstractAsyncTask
                 //客户 接收数据
                 $customer['mode'] = 'accept';
                 $customer['client_number'] = $customer['username'];
-                $customer['username'] = $userinfo['username'];
 
             }
 
