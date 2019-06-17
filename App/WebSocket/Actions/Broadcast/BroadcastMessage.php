@@ -24,7 +24,7 @@ class BroadcastMessage extends ActionPayload
     protected $type;
     protected $sendTime;
     protected $avatar; //头像链接
-    protected $username; //用户名
+    protected $number; //用户编号
     protected $accept; //接收者的账号
     protected $send; //发送者的账号
     protected $masterId; //聊天组的id
@@ -82,19 +82,19 @@ class BroadcastMessage extends ActionPayload
         $this->avatar = $avatar;
     }
 
-    public function setUsername($username):void
+    public function setNumber($number):void
     {
-        $this->username = $username;
+        $this->number = $number;
     }
 
-    public function setAccept($username):void
+    public function setAccept($number):void
     {
-        $this->accept = $username;
+        $this->accept = $number;
     }
 
-    public function setSend($username):void
+    public function setSend($number):void
     {
-        $this->send = $username;
+        $this->send = $number;
     }
 
     public function setMasterId($masterId):void

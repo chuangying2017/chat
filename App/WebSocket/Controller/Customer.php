@@ -38,12 +38,12 @@ class Customer extends Base
 
             if (!empty($info))
             {
-                $message->setUsername($info['username']);
+                $message->setNumber($info['number']);
                 $message->setAvatar($info['avatar']);
-                $message->setSend($info['username']);
+                $message->setSend($info['number']);
             }
 
-            $message->setAccept($broadcastPayload['username']);
+            $message->setAccept($broadcastPayload['number']);
 
             $message->setMasterId($broadcastPayload['masterId']);
 
@@ -55,7 +55,7 @@ class Customer extends Base
                 'mode'  => isset($broadcastPayload['mode']) ? $broadcastPayload['mode'] : false,
                 'toCustomer' => [
                     'customer_id' => $broadcastPayload['toUserFd'],
-                    'username' => $broadcastPayload['username']
+                    'number' => $broadcastPayload['number']
                 ]
             ]));
         }

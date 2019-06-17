@@ -18,7 +18,7 @@ class BroadcastAdmin extends ActionPayload
     protected $action = WebSocketAction::BROADCAST_ADMIN;
     protected $content;
 
-    protected $username;//客服编号
+    protected $number;//客服编号
     protected $customer_id;//客服id
 
     /**
@@ -29,9 +29,9 @@ class BroadcastAdmin extends ActionPayload
         return $this->content;
     }
 
-    public function getUsername()
+    public function getNumber()
     {
-        return $this->username;
+        return $this->number;
     }
 
     public function getCustomerId()
@@ -59,11 +59,11 @@ class BroadcastAdmin extends ActionPayload
 
             $arr = $allActive[$int_rand];
 
-            $this->username = $arr['number'];
+            $this->number = $arr['number'];
             $this->customer_id = $arr['id'];//客服id
         }else{
 
-            $this->username = 'KF000TEST';
+            $this->number = 'KF000TEST';
 
         }
 

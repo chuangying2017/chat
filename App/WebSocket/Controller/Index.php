@@ -40,36 +40,36 @@ class Index extends Base
             $fd = $client->getFd();
 
             $server = ServerManager::getInstance()->getSwooleServer();
-        if (isset($args['username']) && !empty($args['username'])) {
-            $username = $args['username'];
-            $avatar = Gravatar::makeGravatar($username . '@swoole.com');
+        if (isset($args['number']) && !empty($args['number'])) {
+            $number = $args['number'];
+            $avatar = Gravatar::makeGravatar($number . '@swoole.com');
         } else {
             $random = Random::character(8);
             $avatar = Gravatar::makeGravatar($random . '@swoole.com');
-            $username = 'KF_' . $random;
+            $number = 'KF_' . $random;
         }
 
-        OnlineUser::getInstance()->set($fd, $username, $avatar);
+        OnlineUser::getInstance()->set($fd, $number, $avatar);
 
         //如果是客服 就不需要发送信息过来
-        if (!isset($args['username']) || empty($args['username']))
+        if (!isset($args['number']) || empty($args['number']))
         {
             //有客服来咨询
-            $clientData = ['fd' => $fd, 'avatar' => $avatar, 'username' => $username];
+            $clientData = ['fd' => $fd, 'avatar' => $avatar, 'number' => $number];
             $userInRoomMessage = new UserInRoom();
             $userInRoomMessage->setInfo($clientData);
             //没有获取到连接 自动去获取随机 客服
 
                 // 发送欢迎消息给用户 抽取随机客服给用户发信息
                 $broadcastAdminMessage = new BroadcastAdmin();
-                // $broadcastAdminMessage->setContent("{$username}，欢迎到来 你好 请问有什么可以帮助到你！");
+                // $broadcastAdminMessage->setContent("{$number}，欢迎到来 你好 请问有什么可以帮助到你！");
                 $broadcastAdminMessage->setRandomCustomer();
                 //  $server->push($fd, $broadcastAdminMessage->__toString());
 
-                $broadcastAdminMessage->setContent("编号{$broadcastAdminMessage->getUsername()},很高兴为您服务");
+                $broadcastAdminMessage->setContent("编号{$broadcastAdminMessage->getNumber()},很高兴为您服务");
                 $server->push($fd, $broadcastAdminMessage->__toString());
                 //临时用户保存在redis 最多20个
-                SaveMessage::getInstance()->saveRedisCustomer($broadcastAdminMessage->getUsername(), $clientData);
+                SaveMessage::getInstance()->saveRedisCustomer($broadcastAdminMessage->getNumber(), $clientData);
 
                 //推送给客服 如果不在线 推送离线消息 第一次
                 TaskManager::async(new CustomerTask([
@@ -77,7 +77,7 @@ class Index extends Base
                     'fromFd' => $fd,
                     'toCustomer' =>
                         [
-                            'username' => $broadcastAdminMessage->getUsername(),
+                            'number' => $broadcastAdminMessage->getnumber(),
                             'customer_id' => $broadcastAdminMessage->getCustomerId()
                         ]
                 ]));
@@ -95,7 +95,7 @@ class Index extends Base
 
 
         }else{
-           $tempData = TempUserGet::getInstance()->GetTempClientList($username);
+           $tempData = TempUserGet::getInstance()->GetTempClientList($number);
 
            if (is_array($tempData))
            {
@@ -111,7 +111,7 @@ class Index extends Base
         $message->setIntro('欢迎使用 即时通讯');
         $message->setUserFd($fd);
         $message->setAvatar($avatar);
-        $message->setUsername($username);
+        $message->setNumber($number);
         $this->response()->setMessage($message);
     }
 

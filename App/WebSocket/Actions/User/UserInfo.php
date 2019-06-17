@@ -20,7 +20,7 @@ use App\WebSocket\WebSocketAction;
 class UserInfo extends ActionPayload
 {
     protected $action = WebSocketAction::USER_INFO;
-    protected $username;
+    protected $number;
     protected $intro;
     protected $userFd;
     protected $avatar;
@@ -28,17 +28,17 @@ class UserInfo extends ActionPayload
     /**
      * @return mixed
      */
-    public function getUsername()
+    public function getNumber()
     {
-        return $this->username;
+        return $this->number;
     }
 
     /**
-     * @param mixed $username
+     * @param mixed $number
      */
-    public function setUsername($username): void
+    public function setNumber($number): void
     {
-        $this->username = $username;
+        $this->number = $number;
     }
 
     /**
