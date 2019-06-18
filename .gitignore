@@ -14,3 +14,5 @@ composer.phar
 easyswoole.install
 Log
 Temp
+dev.php
+easyswoole
