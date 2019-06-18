@@ -14,4 +14,11 @@ class CustomerModel extends Model
 
     protected $dbTable = 'customer';
 
+
+  public function updateData($number,$data)
+  {
+      $res = static::where('number',$number)->update($data);
+
+      return $res;
+  }
 }

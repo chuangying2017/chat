@@ -22,5 +22,7 @@ class WebSocketAction
     const USER_IN_ROOM = 203;      // 进入房间 新用户来咨询
     const USER_OUT_ROOM = 204;     // 离开房间 用户已离开
 
+    const UPDATE_CUSTOMER_NAME = 205; //编辑客服的名称
+
     //一对一聊天
 }

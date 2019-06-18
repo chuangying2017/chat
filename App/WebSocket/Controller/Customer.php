@@ -43,6 +43,11 @@ class Customer extends Base
                 $message->setSend($info['number']);
             }
 
+            if (isset($broadcastPayload['name']))
+            {
+                $message->setName($broadcastPayload['name']);
+            }
+
             $message->setAccept($broadcastPayload['number']);
 
             $message->setMasterId($broadcastPayload['masterId']);

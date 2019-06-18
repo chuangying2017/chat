@@ -28,6 +28,7 @@ class BroadcastMessage extends ActionPayload
     protected $accept; //接收者的账号
     protected $send; //发送者的账号
     protected $masterId; //聊天组的id
+    protected $name = null;//客服端昵称
 
     /**
      * @return mixed
@@ -100,5 +101,10 @@ class BroadcastMessage extends ActionPayload
     public function setMasterId($masterId):void
     {
         $this->masterId = $masterId;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }

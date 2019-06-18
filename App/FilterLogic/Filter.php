@@ -22,4 +22,11 @@ class Filter
 
         return FilterMethod::getInstance()->only($arr, $filterKey);
     }
+
+    public function saveCustomerData(array $arr)
+    {
+        $filterKey = ['name','number','username','id'];
+
+        return FilterMethod::getInstance()->only($arr, $filterKey);
+    }
 }

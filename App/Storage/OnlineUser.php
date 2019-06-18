@@ -39,15 +39,17 @@ class OnlineUser
      * @param $fd
      * @param $username
      * @param $avatar
+     * @param string $name
      * @return mixed
      */
-    function set($fd, $username, $avatar)
+    function set($fd, $username, $avatar,$name=null)
     {
         return $this->table->set($fd, [
             'fd' => $fd,
             'avatar' => $avatar,
             'number' => $username,
-            'last_heartbeat' => time()
+            'last_heartbeat' => time(),
+            'name' => $name
         ]);
     }
 

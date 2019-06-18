@@ -16,6 +16,7 @@ class BroadcastClient extends ActionPayload
 
     protected $number;//客服编号
     protected $customer_id;//客服id
+    protected $name = null;//客服昵称
 
     public function setContent($content):void
     {
@@ -30,6 +31,11 @@ class BroadcastClient extends ActionPayload
     public function setCustomerId($customerId):void
     {
         $this->customer_id = $customerId;
+    }
+
+    public function setName($name):void
+    {
+        $this->name = $name;
     }
 
     public function getContent()

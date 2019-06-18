@@ -33,11 +33,19 @@ class Client extends Base
 
         OnlineUser::getInstance()->set($fd, $client['number'], $client['avatar']);
 
+        if (isset($customer['name']) && !empty($customer['name']))
+        {
+            $name = $customer['name'];
+        }else{
+            $name = $customer['number'];
+        }
+
         //第一次给客户端推送消息
         $BroadcastClient = new BroadcastClient();
         $BroadcastClient->setCustomerId($customer['customer_id']);
         $BroadcastClient->setNumber($customer['number']);
-        $BroadcastClient->setContent("您好, 编号{$customer['number']}很高兴为您服务!");
+        $BroadcastClient->setName($name);
+        $BroadcastClient->setContent("您好, 客服  {$name} 很高兴为您服务!");
         $server->push($fd,$BroadcastClient->__toString());
 
         $clientData = ['fd' => $fd, 'avatar' => $client['avatar'], 'number' => $client['number']];
