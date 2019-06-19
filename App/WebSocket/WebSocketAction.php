@@ -23,6 +23,7 @@ class WebSocketAction
     const USER_OUT_ROOM = 204;     // 离开房间 用户已离开
 
     const UPDATE_CUSTOMER_NAME = 205; //编辑客服的名称
+    const DELETE_CUSTOMER_SESSION = 206; //删除客服中的会话
 
     //一对一聊天
 }

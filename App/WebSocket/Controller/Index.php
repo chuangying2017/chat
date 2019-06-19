@@ -18,6 +18,7 @@ use App\WebSocket\Actions\User\UserInfo;
 use App\WebSocket\Actions\User\UserInRoom;
 use App\WebSocket\Actions\User\UserOnline;
 use App\WebSocket\Actions\User\UserUpdate;
+use App\WebSocket\WebSocketAction;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use EasySwoole\Socket\Client\WebSocket as WebSocketClient;
@@ -58,7 +59,7 @@ class Index extends Base
         {
             foreach ($tempData as $k => $v)
             {
-                $server->push($fd,json_encode(['action' => 203,'info' => $v],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+                $server->push($fd,json_encode(['action' => WebSocketAction::USER_IN_ROOM,'info' => $v],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
             }
         }
 

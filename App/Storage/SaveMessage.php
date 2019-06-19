@@ -25,7 +25,7 @@ class SaveMessage
     /**
      * 将临时用户保存到指定的客户
      * @param $customerNumber
-     * @param $tempUser
+     * @param array $tempUser
      */
     public function saveRedisCustomer($customerNumber,$tempUser):void
     {
@@ -42,10 +42,10 @@ class SaveMessage
                 array_shift($arr );
             }
 
-            $arr['user' . $tempUser['fd']] = $tempUser;
+            $arr['user' . $tempUser['number']] = $tempUser;
             $redis->delete($customerNumber);
         }else{
-            $arr['user' . $tempUser['fd']] = $tempUser;
+            $arr['user' . $tempUser['number']] = $tempUser;
         }
         $redis->set($customerNumber, serialize($arr));
         $redis->setTimeout($customerNumber,3600);

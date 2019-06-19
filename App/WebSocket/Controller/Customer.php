@@ -11,10 +11,14 @@ namespace App\WebSocket\Controller;
 
 
 
+use App\Obtain\TempUserGet;
+use App\Storage\SaveMessage;
 use App\Task\CustomerTask;
 use App\WebSocket\Actions\Broadcast\BroadcastMessage;
+use App\WebSocket\Actions\User\UserDeleteSession;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use EasySwoole\Socket\Client\WebSocket as WebSocketClient;
+
 
 class Customer extends Base
 {
@@ -64,6 +68,37 @@ class Customer extends Base
                 ]
             ]));
         }
+        $this->response()->setStatus($this->response()::STATUS_OK);
+    }
+
+    /**
+     * delete session record
+     */
+    public function deleteSessionRecord()
+    {
+
+        $broadcastPayload = $this->caller()->getArgs();
+
+        if (!empty($broadcastPayload) && isset($broadcastPayload['client_number']))
+        {
+            $getInstance = SaveMessage::getInstance();
+
+            $customerData = TempUserGet::getInstance()->GetTempClientList($broadcastPayload['customer_number']);
+
+            if (!empty($customerData))
+            {
+                unset($customerData['user' + $broadcastPayload['client_number']]);
+
+                $getInstance->saveRedisCustomer($broadcastPayload['customer_number'],$customerData);
+
+                $userDeleteSession = new UserDeleteSession();
+
+                $userDeleteSession->setClientNumber($broadcastPayload['fd']);
+
+                $this->response()->setMessage($userDeleteSession);
+            }
+        }
+
         $this->response()->setStatus($this->response()::STATUS_OK);
     }
 }
