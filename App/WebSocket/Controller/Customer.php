@@ -83,20 +83,24 @@ class Customer extends Base
         {
             $getInstance = SaveMessage::getInstance();
 
+            $userDeleteSession = new UserDeleteSession();
+
+            $userDeleteSession->setClientNumber($broadcastPayload['client_number']);
+
             $customerData = TempUserGet::getInstance()->GetTempClientList($broadcastPayload['customer_number']);
 
             if (!empty($customerData))
             {
-                unset($customerData['user' + $broadcastPayload['client_number']]);
 
-                $getInstance->saveRedisCustomer($broadcastPayload['customer_number'],$customerData);
+                $user_client_number = 'user' . $broadcastPayload['client_number'];
 
-                $userDeleteSession = new UserDeleteSession();
+                if (isset($customerData[$user_client_number])) unset($customerData[$user_client_number]);
 
-                $userDeleteSession->setClientNumber($broadcastPayload['fd']);
+                $getInstance->setCustomerRoomUser($broadcastPayload['customer_number'],$customerData);
 
-                $this->response()->setMessage($userDeleteSession);
             }
+
+            $this->response()->setMessage($userDeleteSession);
         }
 
         $this->response()->setStatus($this->response()::STATUS_OK);

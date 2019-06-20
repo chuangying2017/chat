@@ -16,7 +16,8 @@ class Client extends Base
 {
 
     /**
-     * 初始化 客户端 第一次请求
+     * 初始化 客户端 第一次请求 用户上线啦
+     *
      */
     public function info()
     {

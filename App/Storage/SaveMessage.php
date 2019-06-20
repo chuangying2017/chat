@@ -50,4 +50,13 @@ class SaveMessage
         $redis->set($customerNumber, serialize($arr));
         $redis->setTimeout($customerNumber,3600);
     }
+
+    public function setCustomerRoomUser($customerNumber,$tempUser):void
+    {
+        $redis = Redis::defer('redis');
+
+        $redis->set($customerNumber,serialize($tempUser));
+
+        $redis->setTimeout($customerNumber,3600);
+    }
 }
