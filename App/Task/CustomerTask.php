@@ -59,13 +59,7 @@ class CustomerTask extends AbstractAsyncTask
 
             }
 
-
-            if (!isset($customer['type']))
-            {
-                $customer['type'] = 'msg';//如果没设置 默认为信息
-            }else{
-                $customer['type'] = $customer['type'] == 'text' ? 'msg' : 'image';
-            }
+            $customer['type'] = $payload['type'] == 'text' ? 'msg' : 'image';
 
             $customer['content'] = $payload['content'] ?? '客户咨询';
 
