@@ -25,5 +25,7 @@ class WebSocketAction
     const UPDATE_CUSTOMER_NAME = 205; //编辑客服的名称
     const DELETE_CUSTOMER_SESSION = 206; //删除客服中的会话
 
+    const USER_IN_ROOM_LIST = 207; //批量推送用户列表到
+
     //一对一聊天
 }

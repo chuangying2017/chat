@@ -16,4 +16,5 @@ class SessionRecord extends Model
     use Singleton;
 
     protected $dbTable = 'session_record';
+
 }

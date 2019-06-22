@@ -30,8 +30,8 @@ class Base extends Controller
     protected function currentUser()
     {
         /** @var WebSocketClient $client */
-        $client = $this->caller()->getClient();
-        return OnlineUser::getInstance()->get($client->getFd());
+        $client = $this->caller()->getArgs();
+        return OnlineUser::getInstance()->get($client['number']);
     }
 
 }

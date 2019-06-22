@@ -37,33 +37,37 @@ class Index extends Base
             $fd = $client->getFd();
 
             $server = ServerManager::getInstance()->getSwooleServer();
-        if (isset($args['number']) && !empty($args['number'])) {
-            $number = $args['number'];
+
+            $number = $args['number'];//客服编号
+
             $avatar = Gravatar::makeGravatar($number . '@swoole.com');
-        } else {
-            $random = Random::character(8);
-            $avatar = Gravatar::makeGravatar($random . '@swoole.com');
-            $number = 'KF_' . $random;
-        }
 
-        OnlineUser::getInstance()->set($fd, $number, $avatar,$args['name']??null);
+            OnlineUser::getInstance()->set($fd, $number, $avatar,$args['name']??null);
 
-        $tempData = TempUserGet::getInstance()->GetTempClientList($number);
 
-        if (is_array($tempData))
-        {
-            foreach ($tempData as $k => $v)
+            $tempData = TempUserGet::getInstance()->GetTempClientList($number);
+
+
+            if (is_array($tempData))
+
             {
-                $server->push($fd,json_encode(['action' => WebSocketAction::USER_IN_ROOM,'info' => $v],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
-            }
-        }
 
-        $message = new UserInfo;
-        $message->setIntro('欢迎使用 即时通讯');
-        $message->setUserFd($fd);
-        $message->setAvatar($avatar);
-        $message->setNumber($number);
-        $this->response()->setMessage($message);
+                $server->push($fd,json_encode(['action' => WebSocketAction::USER_IN_ROOM_LIST,'info' => $tempData],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+
+            }
+
+
+            $message = new UserInfo;
+
+            $message->setIntro('欢迎使用 即时通讯');
+
+            $message->setUserFd($fd);
+
+            $message->setAvatar($avatar);
+
+            $message->setNumber($number);
+
+            $this->response()->setMessage($message);
     }
 
     /**

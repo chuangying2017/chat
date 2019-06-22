@@ -3,6 +3,8 @@
 
 namespace App\WebSocket\Controller;
 
+use App\Config\CustomerConfig;
+use App\Obtain\TempUserGet;
 use App\Storage\OnlineUser;
 use App\Storage\SaveMessage;
 use App\Task\CustomerTask;
@@ -32,8 +34,28 @@ class Client extends Base
 
         $customer = $args['customer'];
 
-        OnlineUser::getInstance()->set($fd, $client['number'], $client['avatar']);
+        OnlineUser::getInstance()->set($fd, $client['number'], $client['avatar'],null,$customer['number']);
 
+        $clientList = TempUserGet::getInstance()->GetTempClientList(CustomerConfig::ONLINE_CLIENT);
+
+        if (!$clientList)
+        {
+            SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT, [$fd => $client['number']]);
+        }else{
+
+            $key = array_search($client['number'],$clientList);
+            var_dump($key);
+            if ($key)
+            {
+                unset($clientList[$key]);
+
+                $clientList[$fd] = $client['number'];
+
+                SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT,$clientList);
+            }
+        }
+
+        var_dump(OnlineUser::getInstance()->get($client['number']));
         if (isset($customer['name']) && !empty($customer['name']))
         {
             $name = $customer['name'];
@@ -49,7 +71,7 @@ class Client extends Base
         $BroadcastClient->setContent("您好, 客服  {$name} 很高兴为您服务!");
         $server->push($fd,$BroadcastClient->__toString());
 
-        $clientData = ['fd' => $fd, 'avatar' => $client['avatar'], 'number' => $client['number']];
+        $clientData = ['fd' => $fd, 'avatar' => $client['avatar'], 'number' => $client['number'],'status' => 'active'];
         $userInRoomMessage = new UserInRoom();
         $userInRoomMessage->setInfo($clientData);
         SaveMessage::getInstance()->saveRedisCustomer($customer['number'], $clientData);
@@ -62,7 +84,8 @@ class Client extends Base
                 [
                     'number' => $customer['number'],
                     'customer_id' => $customer['customer_id']
-                ]
+                ],
+            'number' => $client['number']
         ]));
         $message = new UserInfo();
         $message->setIntro('欢迎使用 即时通讯');

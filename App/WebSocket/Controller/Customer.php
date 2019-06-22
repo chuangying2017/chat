@@ -65,7 +65,8 @@ class Customer extends Base
                 'toCustomer' => [
                     'customer_id' => $broadcastPayload['toUserFd'],
                     'number' => $broadcastPayload['number']
-                ]
+                ],
+                'number' => $broadcastPayload['number']
             ]));
         }
         $this->response()->setStatus($this->response()::STATUS_OK);

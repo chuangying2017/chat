@@ -13,4 +13,6 @@ class CustomerConfig
 {
     const MODE_SPOT_CLIENT = 'client';
     const MODE_SPOT_CUSTOMER = 'customer';
+
+    const ONLINE_CLIENT = 'OnlineClient';
 }

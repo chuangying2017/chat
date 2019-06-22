@@ -29,6 +29,8 @@ class OnlineUser
             'avatar' => ['type' => Table::TYPE_STRING, 'size' => 128],
             'number' => ['type' => Table::TYPE_STRING, 'size' => 128],
             'last_heartbeat' => ['type' => Table::TYPE_INT, 'size' => 4],
+            'name' => ['type' => Table::TYPE_STRING, 'size' => 50],
+            'customer_number' => ['type' => Table::TYPE_STRING, 'size' => 50]
         ]);
 
         $this->table = TableManager::getInstance()->get('onlineUsers');
@@ -37,41 +39,43 @@ class OnlineUser
     /**
      * 设置一条用户信息
      * @param $fd
-     * @param $username
+     * @param $number
      * @param $avatar
      * @param string $name
+     * @param null $customer_number
      * @return mixed
      */
-    function set($fd, $username, $avatar,$name=null)
+    function set($fd, $number, $avatar,$name=null,$customer_number = null)
     {
-        return $this->table->set($fd, [
+        return $this->table->set($number, [
             'fd' => $fd,
             'avatar' => $avatar,
-            'number' => $username,
+            'number' => $number,
             'last_heartbeat' => time(),
-            'name' => $name
+            'name' => $name,
+            'customer_number' => $customer_number
         ]);
     }
 
     /**
      * 获取一条用户信息
-     * @param $fd
+     * @param $number
      * @return array|mixed|null
      */
-    function get($fd)
+    function get($number)
     {
-        $info = $this->table->get($fd);
+        $info = $this->table->get($number);
         return is_array($info) ? $info : null;
     }
 
     /**
      * 更新一条用户信息
-     * @param $fd
+     * @param $number
      * @param $data
      */
-    function update($fd, $data)
+    function update($number, $data)
     {
-        $info = $this->get($fd);
+        $info = $this->get($number);
         if ($info) {
             $fd = $info['fd'];
             $info = $data + $info;
@@ -81,11 +85,11 @@ class OnlineUser
 
     /**
      * 删除一条用户信息
-     * @param $fd
+     * @param $number
      */
-    function delete($fd)
+    function delete($number)
     {
-        $info = $this->get($fd);
+        $info = $this->get($number);
         if ($info) {
             $this->table->del($info['fd']);
         }
@@ -107,11 +111,11 @@ class OnlineUser
 
     /**
      * 心跳更新
-     * @param $fd
+     * @param $number
      */
-    function updateHeartbeat($fd)
+    function updateHeartbeat($number)
     {
-        $this->update($fd, [
+        $this->update($number, [
             'last_heartbeat' => time()
         ]);
     }

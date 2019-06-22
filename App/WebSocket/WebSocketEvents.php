@@ -2,10 +2,14 @@
 
 namespace App\WebSocket;
 
+use App\Config\CustomerConfig;
+use App\Obtain\TempUserGet;
 use App\Storage\ChatMessage;
 use App\Storage\OnlineUser;
+use App\Storage\SaveMessage;
 use App\Task\BroadcastTask;
 use App\Task\CustomerTask;
+use App\Task\OutTask;
 use App\Utility\Gravatar;
 use App\WebSocket\Actions\Broadcast\BroadcastAdmin;
 use App\WebSocket\Actions\User\UserInRoom;
@@ -111,13 +115,39 @@ class WebSocketEvents
     {
         $info = $server->connection_info($fd);
         if (isset($info['websocket_status']) && $info['websocket_status'] !== 0) {
+            $OnlineUser = OnlineUser::getInstance();
+            //获取用户信息
 
-            // 移除用户并广播告知
-            OnlineUser::getInstance()->delete($fd);
-            var_dump($fd);
-/*            $message = new UserOutRoom;
-            $message->setUserFd($fd);
-            TaskManager::async(new BroadcastTask(['payload' => $message->__toString(), 'fromFd' => $fd]));*/
+            $arr = TempUserGet::getInstance()->GetTempClientList(CustomerConfig::ONLINE_CLIENT);
+
+            if (is_array($arr))
+            {
+                $res = array_search($fd,array_keys($arr));
+
+                if (!is_bool($res))
+                {
+                    $number = $arr[$fd];
+
+                    unset($arr[$fd]);
+
+                    SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT,$arr);
+
+                    $userInfo = $OnlineUser->get($number);
+
+                    $OnlineUser->delete($number);
+
+                    $message = new UserOutRoom;
+
+                    $message->setUserFd($fd);
+
+                    $message->setNumber($number);
+
+                    $message->setCustomerNumber($userInfo['customer_number']);
+
+                    TaskManager::async(new OutTask(['payload' => $message->__toString(), 'fromFd' => $fd]));
+                }
+
+            }
 
         }
     }

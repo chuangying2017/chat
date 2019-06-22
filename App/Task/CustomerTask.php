@@ -29,7 +29,7 @@ class CustomerTask extends AbstractAsyncTask
         $customer = $taskData['toCustomer'];
 
         foreach (OnlineUser::getInstance()->table() as $userFd => $userInfo) {
-            $connection = $server->connection_info($userFd);
+            $connection = $server->connection_info($userInfo['fd']);
             if ($connection['websocket_status'] == 3) {  // 客服正常在线时可以进行消息推送
                 if ($userInfo['number'] == $customer['number'])
                 {
@@ -44,19 +44,15 @@ class CustomerTask extends AbstractAsyncTask
 
 
         // 添加到离线消息
-      //  if ($payload['action'] == 103) {
-
-            $userinfo = OnlineUser::getInstance()->get($taskData['fromFd']);
 
             if (isset($taskData['mode']) && $taskData['mode'] === false)
             {
                 //客户 发送过来的 数据
-                $customer['client_number'] = $userinfo['number'];
+                $customer['client_number'] = $taskData['number'];
             }else{
                 //客户 接收数据
                 $customer['mode'] = 'accept';
                 $customer['client_number'] = $customer['number'];
-
             }
 
             $customer['type'] = isset($payload['type']) && $payload['type'] == 'image' ? 'image' : 'msg';
@@ -65,9 +61,7 @@ class CustomerTask extends AbstractAsyncTask
 
             SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
 
-      //  }
-
-        return true;
+            return true;
     }
 
     protected function finish($result, $task_id)

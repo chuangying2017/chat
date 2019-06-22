@@ -59,4 +59,17 @@ class SaveMessage
 
         $redis->setTimeout($customerNumber,3600);
     }
+
+    /**
+     * 保存在线客户
+     * @param $OnlineClient
+     * @param array $array
+     */
+    public function setOnlineClient($OnlineClient,array $array)
+    {
+        $redis = Redis::defer('redis');
+
+        $redis->set($OnlineClient,serialize($array));
+    }
+
 }

@@ -15,6 +15,8 @@ class UserOutRoom extends ActionPayload
 {
     protected $action = WebSocketAction::USER_OUT_ROOM;
     protected $userFd;
+    protected $number;//客户编号
+    protected $customer_number;
 
     /**
      * @return mixed
@@ -30,5 +32,15 @@ class UserOutRoom extends ActionPayload
     public function setUserFd($userFd): void
     {
         $this->userFd = $userFd;
+    }
+
+    public function setNumber($number)
+    {
+        $this->number = $number;
+    }
+
+    public function setCustomerNumber($customerNumber)
+    {
+        $this->customer_number = $customerNumber;
     }
 }
