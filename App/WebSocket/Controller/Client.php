@@ -40,22 +40,24 @@ class Client extends Base
 
         if (!$clientList)
         {
-            SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT, [$fd => $client['number']]);
+            $clientList = [$fd => $client['number']];
+
         }else{
 
             $key = array_search($client['number'],$clientList);
-            var_dump($key);
-            if ($key)
+
+            if (!is_bool($key))
             {
                 unset($clientList[$key]);
-
-                $clientList[$fd] = $client['number'];
-
-                SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT,$clientList);
             }
+
+            $clientList[$fd] = $client['number'];
+
         }
 
-        var_dump(OnlineUser::getInstance()->get($client['number']));
+        SaveMessage::getInstance()->setOnlineClient(CustomerConfig::ONLINE_CLIENT,$clientList);
+
+
         if (isset($customer['name']) && !empty($customer['name']))
         {
             $name = $customer['name'];

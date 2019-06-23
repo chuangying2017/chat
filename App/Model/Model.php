@@ -10,6 +10,7 @@ namespace App\Model;
 
 
 use EasySwoole\Component\Pool\PoolManager;
+use EasySwoole\Component\Singleton;
 use EasySwoole\EasySwoole\Config;
 use EasySwoole\Mysqli\Mysqli;
 use EasySwoole\Mysqli\TpORM;
@@ -17,6 +18,8 @@ use EasySwoole\MysqliPool\Mysql;
 
 class Model extends TpORM
 {
+    use Singleton;
+
     protected $prefix;
 
     protected $softDelete = false;
@@ -110,4 +113,5 @@ class Model extends TpORM
             return false;
         }
     }
+
 }

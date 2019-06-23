@@ -42,24 +42,19 @@ class CustomerTask extends AbstractAsyncTask
             }
         }
 
+            if (isset($taskData['mode']) && $taskData['mode'] == 'customer') $customer['mode'] = 'accept';
 
-        // 添加到离线消息
 
-            if (isset($taskData['mode']) && $taskData['mode'] === false)
+            if (isset($payload['masterId']))
             {
-                //客户 发送过来的 数据
-                $customer['client_number'] = $taskData['number'];
-            }else{
-                //客户 接收数据
-                $customer['mode'] = 'accept';
-                $customer['client_number'] = $customer['number'];
+                $customer['client_number'] = $payload['masterId'];
+
+                $customer['type'] = isset($payload['type']) && $payload['type'] == 'image' ? 'image' : 'msg';
+
+                $customer['content'] = $payload['content'] ?? '客户咨询';
+
+                SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
             }
-
-            $customer['type'] = isset($payload['type']) && $payload['type'] == 'image' ? 'image' : 'msg';
-
-            $customer['content'] = $payload['content'] ?? '客户咨询';
-
-            SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
 
             return true;
     }

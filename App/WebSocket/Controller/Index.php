@@ -8,12 +8,15 @@
 
 namespace App\WebSocket\Controller;
 
+use App\Config\CustomerConfig;
+use App\Model\CustomerModel;
 use App\Obtain\TempUserGet;
 use App\Storage\OnlineUser;
 use App\Utility\Gravatar;
 use App\WebSocket\Actions\User\UserInfo;
 use App\WebSocket\Actions\User\UserOnline;
 use App\WebSocket\Actions\User\UserUpdate;
+use App\WebSocket\Actions\User\UserUpdateAvatar;
 use App\WebSocket\WebSocketAction;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Socket\Client\WebSocket as WebSocketClient;
@@ -40,7 +43,12 @@ class Index extends Base
 
             $number = $args['number'];//客服编号
 
-            $avatar = Gravatar::makeGravatar($number . '@swoole.com');
+            if (!empty($args['avatar']))
+            {
+                $avatar = $args['avatar'];
+            }else{
+                $avatar = Gravatar::makeGravatar($number . '@swoole.com');
+            }
 
             OnlineUser::getInstance()->set($fd, $number, $avatar,$args['name']??null);
 
@@ -49,7 +57,6 @@ class Index extends Base
 
 
             if (is_array($tempData))
-
             {
 
                 $server->push($fd,json_encode(['action' => WebSocketAction::USER_IN_ROOM_LIST,'info' => $tempData],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
@@ -102,13 +109,15 @@ class Index extends Base
         $client = $this->caller()->getClient();
         $fd = $client->getFd();
         $OnlineUser = OnlineUser::getInstance();
-        $info = $OnlineUser->get($fd);
+
+
+        $info = $OnlineUser->get($args['number']);
 
         if ($args['name'] && $info)
         {
             $info['name'] = $args['name'];
 
-            $OnlineUser->table()->set($fd,$info);
+            $OnlineUser->table()->set($args['number'],$info);
 
 
             $userUpdate = new UserUpdate();
@@ -120,5 +129,34 @@ class Index extends Base
             $this->response()->setMessage($userUpdate);
         }
 
+    }
+
+    function updateAvatar()
+    {
+        /** @var WebSocketClient $client */
+        $args = $this->caller()->getArgs();
+        $client = $this->caller()->getClient();
+        $fd = $client->getFd();
+        $OnlineUser = OnlineUser::getInstance();
+
+        $info  = $OnlineUser->get($args['number']);
+
+        if (isset($args['avatar']) && !empty($args['avatar']))
+        {
+            $info['avatar'] = $args['avatar'];
+
+            $OnlineUser->table()->set($args['number'],$info);
+
+            $avatarUpdate = new UserUpdateAvatar();
+
+            $avatarUpdate->setFd($fd);
+
+            $avatarUpdate->setInfo($info);
+
+            $this->response()->setMessage($avatarUpdate);
+
+            CustomerModel::getInstance()->updateData($args['number'], ['avatar' => $args['avatar']]);
+
+        }
     }
 }

@@ -54,11 +54,11 @@ class OutTask extends AbstractAsyncTask
 
                     if (is_array($arr))
                     {
-                        $array = $arr['user' . $arr[$payload['number']]];
+                        $array = $arr['user' . $payload['number']];
 
                         $array['status'] = 'inactive';//离线
 
-                        $arr['user' . $arr[$payload['number']]] = $array;
+                        $arr['user' . $payload['number']] = $array;
 
                         SaveMessage::getInstance()->setCustomerRoomUser($payload['customer_number'],$arr);
                     }

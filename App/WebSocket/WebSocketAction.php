@@ -26,6 +26,7 @@ class WebSocketAction
     const DELETE_CUSTOMER_SESSION = 206; //删除客服中的会话
 
     const USER_IN_ROOM_LIST = 207; //批量推送用户列表到
+    const CUSTOMER_UPDATE_AVATAR = 208; //更新客服头像
 
     //一对一聊天
 }
