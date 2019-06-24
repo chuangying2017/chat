@@ -53,6 +53,10 @@ class CustomerTask extends AbstractAsyncTask
 
                 $customer['content'] = $payload['content'] ?? '客户咨询';
 
+                $clientInfo = OnlineUser::getInstance()->get($payload['masterId']);
+
+                $customer['client_name'] = $clientInfo['name'];
+
                 SaveMessage::getInstance()->saveMessage(Filter::getInstance()->saveChatSession($customer));
             }
 

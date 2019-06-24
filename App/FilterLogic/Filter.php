@@ -18,7 +18,7 @@ class Filter
 
     public function saveChatSession(array $arr): array
     {
-        $filterKey = ['customer_id','client_number','content','mode','type'];
+        $filterKey = ['customer_id','client_number','content','mode','type','client_name'];
 
         return FilterMethod::getInstance()->only($arr, $filterKey);
     }

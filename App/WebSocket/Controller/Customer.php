@@ -45,17 +45,12 @@ class Customer extends Base
                 $message->setNumber($info['number']);
                 $message->setAvatar($info['avatar']);
                 $message->setSend($info['number']);
-            }
-
-            if (isset($broadcastPayload['name']))
-            {
-                $message->setName($broadcastPayload['name']);
+                $message->setName($info['name']);
             }
 
             $message->setAccept($broadcastPayload['number']);
 
             $message->setMasterId($broadcastPayload['masterId']);
-
 
 
             TaskManager::async(new CustomerTask([

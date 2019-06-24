@@ -34,7 +34,7 @@ class Client extends Base
 
         $customer = $args['customer'];
 
-        OnlineUser::getInstance()->set($fd, $client['number'], $client['avatar'],null,$customer['number']);
+        OnlineUser::getInstance()->set($fd, $client['number'], $client['avatar'],$client['name'],$customer['number']);
 
         $clientList = TempUserGet::getInstance()->GetTempClientList(CustomerConfig::ONLINE_CLIENT);
 
@@ -73,7 +73,7 @@ class Client extends Base
         $BroadcastClient->setContent("您好, 客服  {$name} 很高兴为您服务!");
         $server->push($fd,$BroadcastClient->__toString());
 
-        $clientData = ['fd' => $fd, 'avatar' => $client['avatar'], 'number' => $client['number'],'status' => 'active'];
+        $clientData = ['fd' => $fd, 'avatar' => $client['avatar'], 'number' => $client['number'],'status' => 'active','name'=>$client['name']];
         $userInRoomMessage = new UserInRoom();
         $userInRoomMessage->setInfo($clientData);
         SaveMessage::getInstance()->saveRedisCustomer($customer['number'], $clientData);

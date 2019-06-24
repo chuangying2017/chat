@@ -50,7 +50,7 @@ class Index extends Base
                 $avatar = Gravatar::makeGravatar($number . '@swoole.com');
             }
 
-            OnlineUser::getInstance()->set($fd, $number, $avatar,$args['name']??null);
+            OnlineUser::getInstance()->set($fd, $number, $avatar,$args['name']);
 
 
             $tempData = TempUserGet::getInstance()->GetTempClientList($number);
