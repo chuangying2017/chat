@@ -22,7 +22,7 @@ use EasySwoole\Socket\Client\WebSocket as WebSocketClient;
 
 class Customer extends Base
 {
-    //单对单 发送给客户端 需要区分 是客服 还是 客户
+    //单对单 发送给客户端 需要区分 是客服 还是 客户 00 20196
     /**
      * @throws \Exception
      */
